@@ -1,1 +1,430 @@
-[]
+[
+  {
+    "id": "ev-001",
+    "type": "negative_test",
+    "file": "src/__tests__/order-lifecycle.test.ts",
+    "line": 98,
+    "symbol": "payOrder",
+    "snippet": "expect(() => payOrder()).toThrow()",
+    "summary": "Negative test: \"rejects payment of a REFUNDED order\"",
+    "metadata": {
+      "suiteName": "payOrder",
+      "testName": "rejects payment of a REFUNDED order",
+      "testedOperation": "payOrder",
+      "referencedStates": []
+    }
+  },
+  {
+    "id": "ev-002",
+    "type": "negative_test",
+    "file": "src/__tests__/order-lifecycle.test.ts",
+    "line": 104,
+    "symbol": "payOrder",
+    "snippet": "expect(() => payOrder()).toThrow()",
+    "summary": "Negative test: \"rejects payment of a CANCELLED order\"",
+    "metadata": {
+      "suiteName": "payOrder",
+      "testName": "rejects payment of a CANCELLED order",
+      "testedOperation": "payOrder",
+      "referencedStates": []
+    }
+  },
+  {
+    "id": "ev-003",
+    "type": "negative_test",
+    "file": "src/__tests__/order-lifecycle.test.ts",
+    "line": 109,
+    "symbol": "payOrder",
+    "snippet": "expect(() => payOrder()).toThrow()",
+    "summary": "Negative test: \"rejects payment of a SHIPPED order\"",
+    "metadata": {
+      "suiteName": "payOrder",
+      "testName": "rejects payment of a SHIPPED order",
+      "testedOperation": "payOrder",
+      "referencedStates": []
+    }
+  },
+  {
+    "id": "ev-004",
+    "type": "negative_test",
+    "file": "src/__tests__/order-lifecycle.test.ts",
+    "line": 114,
+    "symbol": "payOrder",
+    "snippet": "expect(() => payOrder()).toThrow()",
+    "summary": "Negative test: \"rejects payment of a PAID order\"",
+    "metadata": {
+      "suiteName": "payOrder",
+      "testName": "rejects payment of a PAID order",
+      "testedOperation": "payOrder",
+      "referencedStates": []
+    }
+  },
+  {
+    "id": "ev-005",
+    "type": "negative_test",
+    "file": "src/__tests__/order-lifecycle.test.ts",
+    "line": 148,
+    "symbol": "refundOrder",
+    "snippet": "expect(() => refundOrder()).toThrow()",
+    "summary": "Negative test: \"rejects refund of a CREATED order\"",
+    "metadata": {
+      "suiteName": "refundOrder",
+      "testName": "rejects refund of a CREATED order",
+      "testedOperation": "refundOrder",
+      "referencedStates": []
+    }
+  },
+  {
+    "id": "ev-006",
+    "type": "negative_test",
+    "file": "src/__tests__/order-lifecycle.test.ts",
+    "line": 153,
+    "symbol": "refundOrder",
+    "snippet": "expect(() => refundOrder()).toThrow()",
+    "summary": "Negative test: \"rejects refund of a CANCELLED order\"",
+    "metadata": {
+      "suiteName": "refundOrder",
+      "testName": "rejects refund of a CANCELLED order",
+      "testedOperation": "refundOrder",
+      "referencedStates": []
+    }
+  },
+  {
+    "id": "ev-007",
+    "type": "negative_test",
+    "file": "src/__tests__/order-lifecycle.test.ts",
+    "line": 158,
+    "symbol": "refundOrder",
+    "snippet": "expect(() => refundOrder()).toThrow()",
+    "summary": "Negative test: \"rejects refund of a SHIPPED order\"",
+    "metadata": {
+      "suiteName": "refundOrder",
+      "testName": "rejects refund of a SHIPPED order",
+      "testedOperation": "refundOrder",
+      "referencedStates": []
+    }
+  },
+  {
+    "id": "ev-008",
+    "type": "negative_test",
+    "file": "src/__tests__/order-lifecycle.test.ts",
+    "line": 212,
+    "symbol": "cancelOrder",
+    "snippet": "expect(() => cancelOrder()).toThrow()",
+    "summary": "Negative test: \"rejects cancellation of a SHIPPED order\"",
+    "metadata": {
+      "suiteName": "cancelOrder",
+      "testName": "rejects cancellation of a SHIPPED order",
+      "testedOperation": "cancelOrder",
+      "referencedStates": []
+    }
+  },
+  {
+    "id": "ev-009",
+    "type": "negative_test",
+    "file": "src/__tests__/order-lifecycle.test.ts",
+    "line": 218,
+    "symbol": "cancelOrder",
+    "snippet": "expect(() => cancelOrder()).toThrow()",
+    "summary": "Negative test: \"rejects cancellation of a CREATED order\"",
+    "metadata": {
+      "suiteName": "cancelOrder",
+      "testName": "rejects cancellation of a CREATED order",
+      "testedOperation": "cancelOrder",
+      "referencedStates": []
+    }
+  },
+  {
+    "id": "ev-010",
+    "type": "negative_test",
+    "file": "src/__tests__/order-lifecycle.test.ts",
+    "line": 223,
+    "symbol": "cancelOrder",
+    "snippet": "expect(() => cancelOrder()).toThrow()",
+    "summary": "Negative test: \"rejects cancellation of an already CANCELLED order\"",
+    "metadata": {
+      "suiteName": "cancelOrder",
+      "testName": "rejects cancellation of an already CANCELLED order",
+      "testedOperation": "cancelOrder",
+      "referencedStates": []
+    }
+  },
+  {
+    "id": "ev-011",
+    "type": "negative_test",
+    "file": "src/__tests__/order-lifecycle.test.ts",
+    "line": 250,
+    "symbol": "shipOrder",
+    "snippet": "expect(() => shipOrder()).toThrow()",
+    "summary": "Negative test: \"rejects shipment of a CREATED order\"",
+    "metadata": {
+      "suiteName": "shipOrder",
+      "testName": "rejects shipment of a CREATED order",
+      "testedOperation": "shipOrder",
+      "referencedStates": []
+    }
+  },
+  {
+    "id": "ev-012",
+    "type": "negative_test",
+    "file": "src/__tests__/order-lifecycle.test.ts",
+    "line": 256,
+    "symbol": "shipOrder",
+    "snippet": "expect(() => shipOrder()).toThrow()",
+    "summary": "Negative test: \"rejects shipment of a CANCELLED order\"",
+    "metadata": {
+      "suiteName": "shipOrder",
+      "testName": "rejects shipment of a CANCELLED order",
+      "testedOperation": "shipOrder",
+      "referencedStates": []
+    }
+  },
+  {
+    "id": "ev-013",
+    "type": "negative_test",
+    "file": "src/__tests__/order-lifecycle.test.ts",
+    "line": 262,
+    "symbol": "shipOrder",
+    "snippet": "expect(() => shipOrder()).toThrow()",
+    "summary": "Negative test: \"rejects shipment of a REFUNDED order\"",
+    "metadata": {
+      "suiteName": "shipOrder",
+      "testName": "rejects shipment of a REFUNDED order",
+      "testedOperation": "shipOrder",
+      "referencedStates": []
+    }
+  },
+  {
+    "id": "ev-014",
+    "type": "negative_test",
+    "file": "src/__tests__/order-lifecycle.test.ts",
+    "line": 268,
+    "symbol": "shipOrder",
+    "snippet": "expect(() => shipOrder()).toThrow()",
+    "summary": "Negative test: \"rejects shipment of an already SHIPPED order\"",
+    "metadata": {
+      "suiteName": "shipOrder",
+      "testName": "rejects shipment of an already SHIPPED order",
+      "testedOperation": "shipOrder",
+      "referencedStates": []
+    }
+  },
+  {
+    "id": "ev-015",
+    "type": "guard",
+    "file": "src/services/order-service.ts",
+    "line": 18,
+    "symbol": "payOrder",
+    "snippet": "if (order.status !== OrderStatus.CREATED) { throw new InvalidOrderTransitionError(...) }",
+    "summary": "Guard in payOrder: order.status !== OrderStatus.CREATED → throw",
+    "metadata": {
+      "operator": "neq",
+      "property": "status",
+      "value": "CREATED",
+      "enumName": "OrderStatus",
+      "throwsClass": "InvalidOrderTransitionError",
+      "additionalRejected": []
+    }
+  },
+  {
+    "id": "ev-016",
+    "type": "throw",
+    "file": "src/services/order-service.ts",
+    "line": 18,
+    "symbol": "payOrder",
+    "snippet": "throw new InvalidOrderTransitionError(...)",
+    "summary": "payOrder throws InvalidOrderTransitionError on invalid transition",
+    "metadata": {
+      "errorClass": "InvalidOrderTransitionError",
+      "functionName": "payOrder"
+    }
+  },
+  {
+    "id": "ev-017",
+    "type": "state_transition",
+    "file": "src/services/order-service.ts",
+    "line": 26,
+    "symbol": "payOrder",
+    "snippet": "order.status = OrderStatus.PAID",
+    "summary": "payOrder assigns status PAID",
+    "metadata": {
+      "objectName": "order",
+      "propertyName": "status",
+      "enumName": "OrderStatus",
+      "enumMember": "PAID"
+    }
+  },
+  {
+    "id": "ev-018",
+    "type": "guard",
+    "file": "src/services/order-service.ts",
+    "line": 31,
+    "symbol": "refundOrder",
+    "snippet": "if (order.status !== OrderStatus.PAID) { throw new InvalidOrderTransitionError(...) }",
+    "summary": "Guard in refundOrder: order.status !== OrderStatus.PAID → throw",
+    "metadata": {
+      "operator": "neq",
+      "property": "status",
+      "value": "PAID",
+      "enumName": "OrderStatus",
+      "throwsClass": "InvalidOrderTransitionError",
+      "additionalRejected": []
+    }
+  },
+  {
+    "id": "ev-019",
+    "type": "throw",
+    "file": "src/services/order-service.ts",
+    "line": 31,
+    "symbol": "refundOrder",
+    "snippet": "throw new InvalidOrderTransitionError(...)",
+    "summary": "refundOrder throws InvalidOrderTransitionError on invalid transition",
+    "metadata": {
+      "errorClass": "InvalidOrderTransitionError",
+      "functionName": "refundOrder"
+    }
+  },
+  {
+    "id": "ev-020",
+    "type": "state_transition",
+    "file": "src/services/order-service.ts",
+    "line": 39,
+    "symbol": "refundOrder",
+    "snippet": "order.status = OrderStatus.REFUNDED",
+    "summary": "refundOrder assigns status REFUNDED",
+    "metadata": {
+      "objectName": "order",
+      "propertyName": "status",
+      "enumName": "OrderStatus",
+      "enumMember": "REFUNDED"
+    }
+  },
+  {
+    "id": "ev-021",
+    "type": "guard",
+    "file": "src/services/order-service.ts",
+    "line": 45,
+    "symbol": "cancelOrder",
+    "snippet": "if (order.status === OrderStatus.SHIPPED) { throw new InvalidOrderTransitionError(...) }",
+    "summary": "Guard in cancelOrder: order.status === OrderStatus.SHIPPED → throw",
+    "metadata": {
+      "operator": "eq",
+      "property": "status",
+      "value": "SHIPPED",
+      "enumName": "OrderStatus",
+      "throwsClass": "InvalidOrderTransitionError",
+      "additionalRejected": []
+    }
+  },
+  {
+    "id": "ev-022",
+    "type": "throw",
+    "file": "src/services/order-service.ts",
+    "line": 45,
+    "symbol": "cancelOrder",
+    "snippet": "throw new InvalidOrderTransitionError(...)",
+    "summary": "cancelOrder throws InvalidOrderTransitionError on invalid transition",
+    "metadata": {
+      "errorClass": "InvalidOrderTransitionError",
+      "functionName": "cancelOrder"
+    }
+  },
+  {
+    "id": "ev-023",
+    "type": "guard",
+    "file": "src/services/order-service.ts",
+    "line": 53,
+    "symbol": "cancelOrder",
+    "snippet": "if (order.status !== OrderStatus.PAID) { throw new InvalidOrderTransitionError(...) }",
+    "summary": "Guard in cancelOrder: order.status !== OrderStatus.PAID → throw",
+    "metadata": {
+      "operator": "neq",
+      "property": "status",
+      "value": "PAID",
+      "enumName": "OrderStatus",
+      "throwsClass": "InvalidOrderTransitionError",
+      "additionalRejected": [
+        "REFUNDED"
+      ]
+    }
+  },
+  {
+    "id": "ev-024",
+    "type": "guard",
+    "file": "src/services/order-service.ts",
+    "line": 53,
+    "symbol": "cancelOrder",
+    "snippet": "if (order.status !== OrderStatus.REFUNDED) { throw new InvalidOrderTransitionError(...) }",
+    "summary": "Guard in cancelOrder: order.status !== OrderStatus.REFUNDED → throw",
+    "metadata": {
+      "operator": "neq",
+      "property": "status",
+      "value": "REFUNDED",
+      "enumName": "OrderStatus",
+      "throwsClass": "InvalidOrderTransitionError",
+      "additionalRejected": [
+        "PAID"
+      ]
+    }
+  },
+  {
+    "id": "ev-025",
+    "type": "state_transition",
+    "file": "src/services/order-service.ts",
+    "line": 64,
+    "symbol": "cancelOrder",
+    "snippet": "order.status = OrderStatus.CANCELLED",
+    "summary": "cancelOrder assigns status CANCELLED",
+    "metadata": {
+      "objectName": "order",
+      "propertyName": "status",
+      "enumName": "OrderStatus",
+      "enumMember": "CANCELLED"
+    }
+  },
+  {
+    "id": "ev-026",
+    "type": "guard",
+    "file": "src/services/order-service.ts",
+    "line": 69,
+    "symbol": "shipOrder",
+    "snippet": "if (order.status !== OrderStatus.PAID) { throw new InvalidOrderTransitionError(...) }",
+    "summary": "Guard in shipOrder: order.status !== OrderStatus.PAID → throw",
+    "metadata": {
+      "operator": "neq",
+      "property": "status",
+      "value": "PAID",
+      "enumName": "OrderStatus",
+      "throwsClass": "InvalidOrderTransitionError",
+      "additionalRejected": []
+    }
+  },
+  {
+    "id": "ev-027",
+    "type": "throw",
+    "file": "src/services/order-service.ts",
+    "line": 69,
+    "symbol": "shipOrder",
+    "snippet": "throw new InvalidOrderTransitionError(...)",
+    "summary": "shipOrder throws InvalidOrderTransitionError on invalid transition",
+    "metadata": {
+      "errorClass": "InvalidOrderTransitionError",
+      "functionName": "shipOrder"
+    }
+  },
+  {
+    "id": "ev-028",
+    "type": "state_transition",
+    "file": "src/services/order-service.ts",
+    "line": 77,
+    "symbol": "shipOrder",
+    "snippet": "order.status = OrderStatus.SHIPPED",
+    "summary": "shipOrder assigns status SHIPPED",
+    "metadata": {
+      "objectName": "order",
+      "propertyName": "status",
+      "enumName": "OrderStatus",
+      "enumMember": "SHIPPED"
+    }
+  }
+]

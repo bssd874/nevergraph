@@ -1,1 +1,137 @@
-[]
+[
+  {
+    "id": "tr-001",
+    "action": "cancelOrder",
+    "from": {
+      "state": "PAID",
+      "facts": {}
+    },
+    "to": {
+      "state": "CANCELLED",
+      "facts": {
+        "cancelledAt": true
+      }
+    },
+    "file": "src/services/order-service.ts",
+    "line": 64,
+    "guards": [
+      {
+        "field": "status",
+        "operator": "eq",
+        "value": "SHIPPED"
+      },
+      {
+        "field": "status",
+        "operator": "neq",
+        "value": "PAID"
+      },
+      {
+        "field": "status",
+        "operator": "neq",
+        "value": "REFUNDED"
+      }
+    ]
+  },
+  {
+    "id": "tr-002",
+    "action": "cancelOrder",
+    "from": {
+      "state": "REFUNDED",
+      "facts": {}
+    },
+    "to": {
+      "state": "CANCELLED",
+      "facts": {
+        "cancelledAt": true
+      }
+    },
+    "file": "src/services/order-service.ts",
+    "line": 64,
+    "guards": [
+      {
+        "field": "status",
+        "operator": "eq",
+        "value": "SHIPPED"
+      },
+      {
+        "field": "status",
+        "operator": "neq",
+        "value": "PAID"
+      },
+      {
+        "field": "status",
+        "operator": "neq",
+        "value": "REFUNDED"
+      }
+    ]
+  },
+  {
+    "id": "tr-003",
+    "action": "payOrder",
+    "from": {
+      "state": "CREATED",
+      "facts": {}
+    },
+    "to": {
+      "state": "PAID",
+      "facts": {
+        "paidAt": true
+      }
+    },
+    "file": "src/services/order-service.ts",
+    "line": 26,
+    "guards": [
+      {
+        "field": "status",
+        "operator": "neq",
+        "value": "CREATED"
+      }
+    ]
+  },
+  {
+    "id": "tr-004",
+    "action": "refundOrder",
+    "from": {
+      "state": "PAID",
+      "facts": {}
+    },
+    "to": {
+      "state": "REFUNDED",
+      "facts": {
+        "refundedAt": true
+      }
+    },
+    "file": "src/services/order-service.ts",
+    "line": 39,
+    "guards": [
+      {
+        "field": "status",
+        "operator": "neq",
+        "value": "PAID"
+      }
+    ]
+  },
+  {
+    "id": "tr-005",
+    "action": "shipOrder",
+    "from": {
+      "state": "PAID",
+      "facts": {}
+    },
+    "to": {
+      "state": "SHIPPED",
+      "facts": {
+        "shippedAt": true
+      }
+    },
+    "file": "src/services/order-service.ts",
+    "line": 77,
+    "guards": [
+      {
+        "field": "status",
+        "operator": "neq",
+        "value": "PAID"
+      }
+    ]
+  }
+]
