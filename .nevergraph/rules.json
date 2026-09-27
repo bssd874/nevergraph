@@ -1,1 +1,142 @@
-[]
+[
+  {
+    "id": "NEVER-001",
+    "description": "A shipped order must never be cancelled",
+    "confidence": "high",
+    "forbiddenCondition": {
+      "targetState": "CANCELLED",
+      "requiredFacts": {
+        "shippedAt": true
+      }
+    },
+    "evidence": [
+      {
+        "evidenceId": "ev-008",
+        "file": "src/__tests__/order-lifecycle.test.ts",
+        "line": 212
+      },
+      {
+        "evidenceId": "ev-021",
+        "file": "src/services/order-service.ts",
+        "line": 45
+      },
+      {
+        "evidenceId": "ev-022",
+        "file": "src/services/order-service.ts",
+        "line": 45
+      }
+    ]
+  },
+  {
+    "id": "NEVER-002",
+    "description": "An order that has already been paid must never be paid again",
+    "confidence": "medium",
+    "forbiddenCondition": {
+      "targetState": "PAID",
+      "requiredFacts": {
+        "paidAt": true
+      }
+    },
+    "evidence": [
+      {
+        "evidenceId": "ev-004",
+        "file": "src/__tests__/order-lifecycle.test.ts",
+        "line": 114
+      },
+      {
+        "evidenceId": "ev-015",
+        "file": "src/services/order-service.ts",
+        "line": 18
+      },
+      {
+        "evidenceId": "ev-016",
+        "file": "src/services/order-service.ts",
+        "line": 18
+      }
+    ]
+  },
+  {
+    "id": "NEVER-003",
+    "description": "A refunded order must never be paid again",
+    "confidence": "medium",
+    "forbiddenCondition": {
+      "targetState": "PAID",
+      "requiredFacts": {
+        "refundedAt": true
+      }
+    },
+    "evidence": [
+      {
+        "evidenceId": "ev-001",
+        "file": "src/__tests__/order-lifecycle.test.ts",
+        "line": 98
+      },
+      {
+        "evidenceId": "ev-015",
+        "file": "src/services/order-service.ts",
+        "line": 18
+      },
+      {
+        "evidenceId": "ev-016",
+        "file": "src/services/order-service.ts",
+        "line": 18
+      }
+    ]
+  },
+  {
+    "id": "NEVER-004",
+    "description": "A cancelled order must never be shipped",
+    "confidence": "high",
+    "forbiddenCondition": {
+      "targetState": "SHIPPED",
+      "requiredFacts": {
+        "cancelledAt": true
+      }
+    },
+    "evidence": [
+      {
+        "evidenceId": "ev-012",
+        "file": "src/__tests__/order-lifecycle.test.ts",
+        "line": 256
+      },
+      {
+        "evidenceId": "ev-026",
+        "file": "src/services/order-service.ts",
+        "line": 69
+      },
+      {
+        "evidenceId": "ev-027",
+        "file": "src/services/order-service.ts",
+        "line": 69
+      }
+    ]
+  },
+  {
+    "id": "NEVER-005",
+    "description": "A refunded order must never be shipped",
+    "confidence": "high",
+    "forbiddenCondition": {
+      "targetState": "SHIPPED",
+      "requiredFacts": {
+        "refundedAt": true
+      }
+    },
+    "evidence": [
+      {
+        "evidenceId": "ev-013",
+        "file": "src/__tests__/order-lifecycle.test.ts",
+        "line": 262
+      },
+      {
+        "evidenceId": "ev-026",
+        "file": "src/services/order-service.ts",
+        "line": 69
+      },
+      {
+        "evidenceId": "ev-027",
+        "file": "src/services/order-service.ts",
+        "line": 69
+      }
+    ]
+  }
+]

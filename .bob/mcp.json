@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "nevergraph": {
+      "command": "node",
+      "args": ["mcp/server/dist/index.js"],
+      "env": {
+        "NEVERGRAPH_WORKSPACE": "${workspaceFolder}"
+      }
+    }
+  }
+}
