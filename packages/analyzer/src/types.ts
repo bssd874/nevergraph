@@ -39,11 +39,15 @@ export interface RawFactAssignment {
  * Supported grammar variants:
  *   - entity.prop !== Enum.VALUE  (operator: "neq", comparison guard)
  *   - entity.prop === Enum.VALUE  (operator: "eq", comparison guard)
+ *   - entity.fact !== null  (successful continuation requires fact = null)
+ *   - entity.fact === null  (extracted, but non-null continuation is not representable)
  *   - entity.prop !== Enum.A && entity.prop !== Enum.B  (multi-neq AND — whitelist inversion)
  *   - entity.prop === Enum.VALUE  inside a standalone throw-if-eq guard
  */
 export interface RawGuard {
   functionName: string;
+  /** Object whose property is guarded, e.g. "order" */
+  objectName: string;
   /** The guarded object.property, e.g. "order.status" */
   subject: string;
   /** Property name only, e.g. "status" */
@@ -52,8 +56,8 @@ export interface RawGuard {
   operator: "eq" | "neq";
   /** Enum identifier if a qualified name, else raw string */
   enumName: string | null;
-  /** Enum member or raw value */
-  value: string;
+  /** Enum member, raw identifier, or the null literal */
+  value: string | null;
   /** Whether a throw statement exists inside this guard body */
   throws: boolean;
   /** Error class name if throw is `new ErrorClass(...)` */
@@ -63,7 +67,7 @@ export interface RawGuard {
    * When non-empty, this guard means: reject all values NOT in the allowed set.
    * The allowed set is all enum members MINUS { value, ...additionalRejected }.
    */
-  additionalRejected: string[];
+  additionalRejected: Array<string | null>;
   file: string;
   line: number;
 }

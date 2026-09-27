@@ -8,8 +8,8 @@
  * ==========================
  * StateTransition.to.facts contains ONLY the fact keys written by the operation.
  * Unspecified keys must be interpreted by the graph engine as PRESERVED (not cleared).
- * This is intentional: cancelOrder writes `cancelledAt` but does NOT touch `refundedAt`,
- * so the graph engine must carry forward any existing `refundedAt` fact.
+ * This is intentional: an operation may write one fact while leaving unrelated
+ * historical facts untouched, so the graph engine must carry those facts forward.
  *
  * MULTI-SOURCE-STATE TRANSITIONS
  * ================================
@@ -82,6 +82,8 @@ interface TransitionCandidate {
   toState: string;
   /** Fact key updates written by this function { key: true|null } */
   toFacts: Record<string, boolean | null>;
+  /** Exact fact values required for the transition to be applicable. */
+  fromFacts: Record<string, boolean | string | number | null>;
   guards: GuardSignal[];
   file: string;
   line: number;
@@ -133,10 +135,15 @@ function buildTransitionCandidates(
       const toState = sa.enumMember;
       const statusProp = sa.propertyName;
 
+      const relevantGuards = data.guards.filter((g) => g.objectName === sa.objectName);
+
       // Derive allowed from-states from guards on the same status property
-      const statusGuards = data.guards.filter((g) => g.propertyName === statusProp);
+      const statusGuards = relevantGuards.filter((g) => g.propertyName === statusProp);
 
       const allowedFromStates = deriveAllowedFromStates(statusGuards);
+      const fromFacts = deriveRequiredFacts(
+        relevantGuards.filter((g) => g.propertyName !== statusProp),
+      );
 
       // Collect non-null fact assignments (exclude the status property itself)
       const toFacts: Record<string, boolean | null> = {};
@@ -152,7 +159,7 @@ function buildTransitionCandidates(
       }
 
       // Guard signals for provenance
-      const guardSignals: GuardSignal[] = statusGuards.map(rawGuardToSignal);
+      const guardSignals: GuardSignal[] = relevantGuards.map(rawGuardToSignal);
 
       // Determine source file + line from the status assignment
       candidates.push({
@@ -160,6 +167,7 @@ function buildTransitionCandidates(
         allowedFromStates,
         toState,
         toFacts,
+        fromFacts,
         guards: guardSignals,
         file: sa.file,
         line: sa.line,
@@ -206,12 +214,14 @@ function deriveAllowedFromStates(guards: RawGuard[]): string[] {
     if (neqGuards.length === 1) {
       const g = neqGuards[0]!;
       // Single neq: allowed = [required_value]
-      return [g.value];
+      return g.value === null ? [] : [g.value];
     }
     // Multiple neq: all are in additionalRejected relationship
     // The allowed states are exactly the neq values themselves
     // (the multi-neq pattern: "must be A or B, otherwise throw")
-    const neqValues = new Set(neqGuards.map((g) => g.value));
+    const neqValues = new Set(
+      neqGuards.flatMap((g) => g.value === null ? [] : [g.value]),
+    );
     return [...neqValues].sort();
   }
 
@@ -221,12 +231,36 @@ function deriveAllowedFromStates(guards: RawGuard[]): string[] {
     // Mixed: eq guards say "this state is rejected" (SHIPPED),
     // neq guards say "only these states are allowed" (PAID, REFUNDED)
     // We trust the neq guards to enumerate allowed states
-    const neqValues = new Set(neqGuards.map((g) => g.value));
+    const neqValues = new Set(
+      neqGuards.flatMap((g) => g.value === null ? [] : [g.value]),
+    );
     return [...neqValues].sort();
   }
 
   // Only eq guards — cannot enumerate allowed states
   return [];
+}
+
+/**
+ * Translate only exactly representable successful fact preconditions.
+ *
+ * A throwing `entity.fact !== null` guard means execution continues only when
+ * the fact is exactly null. A throwing `entity.fact === null` guard means the
+ * continuation is non-null; GraphState has no general non-null predicate, so
+ * that case remains a provenance guard and is conservatively not encoded.
+ */
+function deriveRequiredFacts(
+  guards: RawGuard[],
+): Record<string, boolean | string | number | null> {
+  const requiredFacts: Record<string, boolean | string | number | null> = {};
+
+  for (const guard of guards) {
+    if (guard.operator === "neq" && guard.value === null) {
+      requiredFacts[guard.propertyName] = null;
+    }
+  }
+
+  return requiredFacts;
 }
 
 // ---------------------------------------------------------------------------
@@ -257,7 +291,11 @@ export function normalize(
     if (seenGuards.has(dedupeKey)) continue;
     seenGuards.add(dedupeKey);
 
-    const enumRef = g.enumName ? `${g.enumName}.${g.value}` : g.value;
+    const enumRef = g.value === null
+      ? "null"
+      : g.enumName
+        ? `${g.enumName}.${g.value}`
+        : g.value;
     const opText = g.operator === "neq" ? "!==" : "===";
     const snippet = `if (${g.subject} ${opText} ${enumRef}) { throw new ${g.throwsClass ?? "Error"}(...) }`;
     const summary = `Guard in ${g.functionName}: ${g.subject} ${opText} ${enumRef} → throw`;
@@ -367,7 +405,7 @@ export function normalize(
         action: cand.functionName,
         from: {
           state: fromState,
-          facts: {},
+          facts: cand.fromFacts,
         },
         to: {
           state: cand.toState,

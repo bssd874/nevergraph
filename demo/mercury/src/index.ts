@@ -5,5 +5,6 @@ export {
   payOrder,
   refundOrder,
   cancelOrder,
+  restoreOrder,
   shipOrder,
 } from "./services/order-service.js";

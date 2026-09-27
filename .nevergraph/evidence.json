@@ -426,5 +426,82 @@
       "enumName": "OrderStatus",
       "enumMember": "SHIPPED"
     }
+  },
+  {
+    "id": "ev-029",
+    "type": "guard",
+    "file": "src/services/order-service.ts",
+    "line": 82,
+    "symbol": "restoreOrder",
+    "snippet": "if (order.status !== OrderStatus.CANCELLED) { throw new InvalidOrderTransitionError(...) }",
+    "summary": "Guard in restoreOrder: order.status !== OrderStatus.CANCELLED → throw",
+    "metadata": {
+      "operator": "neq",
+      "property": "status",
+      "value": "CANCELLED",
+      "enumName": "OrderStatus",
+      "throwsClass": "InvalidOrderTransitionError",
+      "additionalRejected": []
+    }
+  },
+  {
+    "id": "ev-030",
+    "type": "throw",
+    "file": "src/services/order-service.ts",
+    "line": 82,
+    "symbol": "restoreOrder",
+    "snippet": "throw new InvalidOrderTransitionError(...)",
+    "summary": "restoreOrder throws InvalidOrderTransitionError on invalid transition",
+    "metadata": {
+      "errorClass": "InvalidOrderTransitionError",
+      "functionName": "restoreOrder"
+    }
+  },
+  {
+    "id": "ev-031",
+    "type": "guard",
+    "file": "src/services/order-service.ts",
+    "line": 90,
+    "symbol": "restoreOrder",
+    "snippet": "if (order.refundedAt !== null) { throw new InvalidOrderTransitionError(...) }",
+    "summary": "Guard in restoreOrder: order.refundedAt !== null → throw",
+    "metadata": {
+      "operator": "neq",
+      "property": "refundedAt",
+      "value": null,
+      "enumName": null,
+      "throwsClass": "InvalidOrderTransitionError",
+      "additionalRejected": []
+    }
+  },
+  {
+    "id": "ev-032",
+    "type": "state_transition",
+    "file": "src/services/order-service.ts",
+    "line": 98,
+    "symbol": "restoreOrder",
+    "snippet": "order.status = OrderStatus.PAID",
+    "summary": "restoreOrder assigns status PAID",
+    "metadata": {
+      "objectName": "order",
+      "propertyName": "status",
+      "enumName": "OrderStatus",
+      "enumMember": "PAID"
+    }
+  },
+  {
+    "id": "ev-033",
+    "type": "negative_test",
+    "file": "src/support/restore-order.test.ts",
+    "line": 22,
+    "symbol": "restoreOrder",
+    "snippet": "expect(() => restoreOrder()).toThrow()",
+    "summary": "Negative test: \"rejects restore from a non-CANCELLED state\"",
+    "metadata": {
+      "suiteName": "restoreOrder",
+      "testName": "rejects restore from a non-CANCELLED state",
+      "testedOperation": "restoreOrder",
+      "referencedStates": []
+    }
   }
 ]

@@ -17,10 +17,16 @@
  *   Emits separate RawGuard per AND-branch, each carrying the full rejected set
  *   in additionalRejected so the normalizer can reconstruct the allowed set.
  *
+ * Pattern 4 — null fact comparison:
+ *   if (entity.fact !== null) { throw new Error(...); }
+ *   The normalizer can represent the successful continuation as fact = null.
+ *   An `=== null` rejection is extracted for evidence, but its successful
+ *   non-null continuation is not converted into a lossy boolean fact.
+ *
  * NOT SUPPORTED (safely ignored):
  *   - OR chains (||)
  *   - Negation of a complex sub-expression
- *   - Property access guards without a RHS enum literal
+ *   - Property access guards without a RHS enum/identifier/null value
  *   - Guards without a throw in the immediate if-body
  *
  * All identifiers (entity name, property, enum name) are discovered from the AST.
@@ -83,10 +89,10 @@ interface ParsedComparison {
   subject: string;
   operator: "eq" | "neq";
   enumName: string | null;
-  value: string;
+  value: string | null;
 }
 
-/** Parse a single BinaryExpression of the form `entity.prop (===|!==) Enum.VALUE` */
+/** Parse `entity.prop (===|!==) Enum.VALUE`, an identifier, or null. */
 function parseComparison(bin: BinaryExpression): ParsedComparison | null {
   const op = bin.getOperatorToken().getKind();
   if (
@@ -110,7 +116,7 @@ function parseComparison(bin: BinaryExpression): ParsedComparison | null {
 
   // RHS: Enum.MEMBER or plain Identifier
   let enumName: string | null = null;
-  let value: string;
+  let value: string | null;
 
   if (right.getKind() === SyntaxKind.PropertyAccessExpression) {
     const rightPa = right as PropertyAccessExpression;
@@ -119,6 +125,8 @@ function parseComparison(bin: BinaryExpression): ParsedComparison | null {
     value = rightPa.getName();
   } else if (right.getKind() === SyntaxKind.Identifier) {
     value = right.getText();
+  } else if (right.getKind() === SyntaxKind.NullKeyword) {
+    value = null;
   } else {
     return null;
   }
@@ -186,6 +194,7 @@ export function extractGuards(sf: SourceFile, relPath: string): RawGuard[] {
       const c = comparisons[0]!;
       results.push({
         functionName: fnName,
+        objectName: c.objectName,
         subject: c.subject,
         propertyName: c.propertyName,
         operator: c.operator,
@@ -208,6 +217,7 @@ export function extractGuards(sf: SourceFile, relPath: string): RawGuard[] {
         const others = allValues.filter((v) => v !== c.value);
         results.push({
           functionName: fnName,
+          objectName: c.objectName,
           subject: c.subject,
           propertyName: c.propertyName,
           operator: c.operator,
@@ -227,6 +237,7 @@ export function extractGuards(sf: SourceFile, relPath: string): RawGuard[] {
     comparisons.forEach((c) => {
       results.push({
         functionName: fnName,
+        objectName: c.objectName,
         subject: c.subject,
         propertyName: c.propertyName,
         operator: c.operator,

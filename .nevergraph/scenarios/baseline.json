@@ -1,0 +1,332 @@
+{
+  "evidence": [
+    {
+      "file": "src/__tests__/order-lifecycle.test.ts",
+      "id": "ev-013",
+      "line": 262,
+      "metadata": {
+        "referencedStates": [],
+        "suiteName": "shipOrder",
+        "testName": "rejects shipment of a REFUNDED order",
+        "testedOperation": "shipOrder"
+      },
+      "snippet": "expect(() => shipOrder()).toThrow()",
+      "summary": "Negative test: \"rejects shipment of a REFUNDED order\"",
+      "symbol": "shipOrder",
+      "type": "negative_test"
+    },
+    {
+      "file": "src/services/order-service.ts",
+      "id": "ev-026",
+      "line": 69,
+      "metadata": {
+        "additionalRejected": [],
+        "enumName": "OrderStatus",
+        "operator": "neq",
+        "property": "status",
+        "throwsClass": "InvalidOrderTransitionError",
+        "value": "PAID"
+      },
+      "snippet": "if (order.status !== OrderStatus.PAID) { throw new InvalidOrderTransitionError(...) }",
+      "summary": "Guard in shipOrder: order.status !== OrderStatus.PAID → throw",
+      "symbol": "shipOrder",
+      "type": "guard"
+    },
+    {
+      "file": "src/services/order-service.ts",
+      "id": "ev-027",
+      "line": 69,
+      "metadata": {
+        "errorClass": "InvalidOrderTransitionError",
+        "functionName": "shipOrder"
+      },
+      "snippet": "throw new InvalidOrderTransitionError(...)",
+      "summary": "shipOrder throws InvalidOrderTransitionError on invalid transition",
+      "symbol": "shipOrder",
+      "type": "throw"
+    }
+  ],
+  "graph": {
+    "edges": [
+      {
+        "action": "payOrder",
+        "id": "[\"edge\",\"{\\\"state\\\":\\\"CREATED\\\",\\\"facts\\\":{}}\",\"{\\\"state\\\":\\\"PAID\\\",\\\"facts\\\":{\\\"paidAt\\\":true}}\",\"payOrder\",\"tr-003\",\"src/services/order-service.ts\",26]",
+        "source": "{\"state\":\"CREATED\",\"facts\":{}}",
+        "target": "{\"state\":\"PAID\",\"facts\":{\"paidAt\":true}}"
+      },
+      {
+        "action": "cancelOrder",
+        "id": "[\"edge\",\"{\\\"state\\\":\\\"PAID\\\",\\\"facts\\\":{\\\"paidAt\\\":true}}\",\"{\\\"state\\\":\\\"CANCELLED\\\",\\\"facts\\\":{\\\"cancelledAt\\\":true,\\\"paidAt\\\":true}}\",\"cancelOrder\",\"tr-001\",\"src/services/order-service.ts\",64]",
+        "source": "{\"state\":\"PAID\",\"facts\":{\"paidAt\":true}}",
+        "target": "{\"state\":\"CANCELLED\",\"facts\":{\"cancelledAt\":true,\"paidAt\":true}}"
+      },
+      {
+        "action": "refundOrder",
+        "id": "[\"edge\",\"{\\\"state\\\":\\\"PAID\\\",\\\"facts\\\":{\\\"paidAt\\\":true}}\",\"{\\\"state\\\":\\\"REFUNDED\\\",\\\"facts\\\":{\\\"paidAt\\\":true,\\\"refundedAt\\\":true}}\",\"refundOrder\",\"tr-004\",\"src/services/order-service.ts\",39]",
+        "source": "{\"state\":\"PAID\",\"facts\":{\"paidAt\":true}}",
+        "target": "{\"state\":\"REFUNDED\",\"facts\":{\"paidAt\":true,\"refundedAt\":true}}"
+      },
+      {
+        "action": "shipOrder",
+        "id": "[\"edge\",\"{\\\"state\\\":\\\"PAID\\\",\\\"facts\\\":{\\\"paidAt\\\":true}}\",\"{\\\"state\\\":\\\"SHIPPED\\\",\\\"facts\\\":{\\\"paidAt\\\":true,\\\"shippedAt\\\":true}}\",\"shipOrder\",\"tr-005\",\"src/services/order-service.ts\",77]",
+        "source": "{\"state\":\"PAID\",\"facts\":{\"paidAt\":true}}",
+        "target": "{\"state\":\"SHIPPED\",\"facts\":{\"paidAt\":true,\"shippedAt\":true}}"
+      },
+      {
+        "action": "cancelOrder",
+        "id": "[\"edge\",\"{\\\"state\\\":\\\"REFUNDED\\\",\\\"facts\\\":{\\\"paidAt\\\":true,\\\"refundedAt\\\":true}}\",\"{\\\"state\\\":\\\"CANCELLED\\\",\\\"facts\\\":{\\\"cancelledAt\\\":true,\\\"paidAt\\\":true,\\\"refundedAt\\\":true}}\",\"cancelOrder\",\"tr-002\",\"src/services/order-service.ts\",64]",
+        "source": "{\"state\":\"REFUNDED\",\"facts\":{\"paidAt\":true,\"refundedAt\":true}}",
+        "target": "{\"state\":\"CANCELLED\",\"facts\":{\"cancelledAt\":true,\"paidAt\":true,\"refundedAt\":true}}"
+      }
+    ],
+    "nodes": [
+      {
+        "graphState": {
+          "facts": {
+            "cancelledAt": true,
+            "paidAt": true,
+            "refundedAt": true
+          },
+          "state": "CANCELLED"
+        },
+        "id": "{\"state\":\"CANCELLED\",\"facts\":{\"cancelledAt\":true,\"paidAt\":true,\"refundedAt\":true}}",
+        "label": "CANCELLED"
+      },
+      {
+        "graphState": {
+          "facts": {
+            "cancelledAt": true,
+            "paidAt": true
+          },
+          "state": "CANCELLED"
+        },
+        "id": "{\"state\":\"CANCELLED\",\"facts\":{\"cancelledAt\":true,\"paidAt\":true}}",
+        "label": "CANCELLED"
+      },
+      {
+        "graphState": {
+          "facts": {},
+          "state": "CREATED"
+        },
+        "id": "{\"state\":\"CREATED\",\"facts\":{}}",
+        "label": "CREATED"
+      },
+      {
+        "graphState": {
+          "facts": {
+            "paidAt": true
+          },
+          "state": "PAID"
+        },
+        "id": "{\"state\":\"PAID\",\"facts\":{\"paidAt\":true}}",
+        "label": "PAID"
+      },
+      {
+        "graphState": {
+          "facts": {
+            "paidAt": true,
+            "refundedAt": true
+          },
+          "state": "REFUNDED"
+        },
+        "id": "{\"state\":\"REFUNDED\",\"facts\":{\"paidAt\":true,\"refundedAt\":true}}",
+        "label": "REFUNDED"
+      },
+      {
+        "graphState": {
+          "facts": {
+            "paidAt": true,
+            "shippedAt": true
+          },
+          "state": "SHIPPED"
+        },
+        "id": "{\"state\":\"SHIPPED\",\"facts\":{\"paidAt\":true,\"shippedAt\":true}}",
+        "label": "SHIPPED"
+      }
+    ]
+  },
+  "initialState": {
+    "facts": {},
+    "state": "CREATED"
+  },
+  "proof": null,
+  "scenario": "baseline",
+  "schemaVersion": 1,
+  "search": {
+    "depth": null,
+    "exploredStateCount": 6,
+    "finalState": null,
+    "limits": {
+      "maxDepth": 10,
+      "maxVisitedStates": 10000
+    },
+    "path": [],
+    "status": "unreachable"
+  },
+  "selectedRule": {
+    "confidence": "high",
+    "description": "A refunded order must never be shipped",
+    "evidence": [
+      {
+        "evidenceId": "ev-013",
+        "file": "src/__tests__/order-lifecycle.test.ts",
+        "line": 262
+      },
+      {
+        "evidenceId": "ev-026",
+        "file": "src/services/order-service.ts",
+        "line": 69
+      },
+      {
+        "evidenceId": "ev-027",
+        "file": "src/services/order-service.ts",
+        "line": 69
+      }
+    ],
+    "forbiddenCondition": {
+      "requiredFacts": {
+        "refundedAt": true
+      },
+      "targetState": "SHIPPED"
+    },
+    "id": "NEVER-005"
+  },
+  "transitions": [
+    {
+      "action": "cancelOrder",
+      "file": "src/services/order-service.ts",
+      "from": {
+        "facts": {},
+        "state": "PAID"
+      },
+      "guards": [
+        {
+          "field": "status",
+          "operator": "eq",
+          "value": "SHIPPED"
+        },
+        {
+          "field": "status",
+          "operator": "neq",
+          "value": "PAID"
+        },
+        {
+          "field": "status",
+          "operator": "neq",
+          "value": "REFUNDED"
+        }
+      ],
+      "id": "tr-001",
+      "line": 64,
+      "to": {
+        "facts": {
+          "cancelledAt": true
+        },
+        "state": "CANCELLED"
+      }
+    },
+    {
+      "action": "cancelOrder",
+      "file": "src/services/order-service.ts",
+      "from": {
+        "facts": {},
+        "state": "REFUNDED"
+      },
+      "guards": [
+        {
+          "field": "status",
+          "operator": "eq",
+          "value": "SHIPPED"
+        },
+        {
+          "field": "status",
+          "operator": "neq",
+          "value": "PAID"
+        },
+        {
+          "field": "status",
+          "operator": "neq",
+          "value": "REFUNDED"
+        }
+      ],
+      "id": "tr-002",
+      "line": 64,
+      "to": {
+        "facts": {
+          "cancelledAt": true
+        },
+        "state": "CANCELLED"
+      }
+    },
+    {
+      "action": "payOrder",
+      "file": "src/services/order-service.ts",
+      "from": {
+        "facts": {},
+        "state": "CREATED"
+      },
+      "guards": [
+        {
+          "field": "status",
+          "operator": "neq",
+          "value": "CREATED"
+        }
+      ],
+      "id": "tr-003",
+      "line": 26,
+      "to": {
+        "facts": {
+          "paidAt": true
+        },
+        "state": "PAID"
+      }
+    },
+    {
+      "action": "refundOrder",
+      "file": "src/services/order-service.ts",
+      "from": {
+        "facts": {},
+        "state": "PAID"
+      },
+      "guards": [
+        {
+          "field": "status",
+          "operator": "neq",
+          "value": "PAID"
+        }
+      ],
+      "id": "tr-004",
+      "line": 39,
+      "to": {
+        "facts": {
+          "refundedAt": true
+        },
+        "state": "REFUNDED"
+      }
+    },
+    {
+      "action": "shipOrder",
+      "file": "src/services/order-service.ts",
+      "from": {
+        "facts": {},
+        "state": "PAID"
+      },
+      "guards": [
+        {
+          "field": "status",
+          "operator": "neq",
+          "value": "PAID"
+        }
+      ],
+      "id": "tr-005",
+      "line": 77,
+      "to": {
+        "facts": {
+          "shippedAt": true
+        },
+        "state": "SHIPPED"
+      }
+    }
+  ],
+  "witness": null
+}

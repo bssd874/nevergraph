@@ -77,3 +77,23 @@ export function shipOrder(order: Order): void {
   order.status = OrderStatus.SHIPPED;
   order.shippedAt = new Date();
 }
+
+export function restoreOrder(order: Order): void {
+  if (order.status !== OrderStatus.CANCELLED) {
+    throw new InvalidOrderTransitionError(
+      order.status,
+      OrderStatus.PAID,
+      `Only a CANCELLED order can be restored, but order is ${order.status}`,
+    );
+  }
+
+  if (order.refundedAt !== null) {
+    throw new InvalidOrderTransitionError(
+      order.status,
+      OrderStatus.PAID,
+      "Refunded orders cannot be restored",
+    );
+  }
+
+  order.status = OrderStatus.PAID;
+}

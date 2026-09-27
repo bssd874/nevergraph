@@ -10,6 +10,7 @@ import { Project, SourceFile } from "ts-morph";
 import { extractStatusAssignments, extractFactAssignments } from "../extractors/assignments.js";
 import { extractGuards } from "../extractors/guards.js";
 import { extractNegativeTests } from "../extractors/tests.js";
+import { normalize } from "../normalizer.js";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -221,6 +222,77 @@ describe("extractGuards", () => {
     `);
     // Should not throw — just produce nothing or partial results
     expect(() => extractGuards(sf, "src/x.ts")).not.toThrow();
+  });
+
+  it("extracts a non-null rejection as a null-valued fact guard", () => {
+    const sf = makeSourceFile(`
+      function reopenArchive(archive: any): void {
+        if (archive.sealedAt !== null) {
+          throw new InvalidStateError("sealed");
+        }
+      }
+    `);
+    const guards = extractGuards(sf, "src/archive.ts");
+    expect(guards).toHaveLength(1);
+    expect(guards[0]).toMatchObject({
+      objectName: "archive",
+      propertyName: "sealedAt",
+      operator: "neq",
+      value: null,
+    });
+  });
+
+  it("combines a state guard with a domain-neutral required null fact", () => {
+    const sf = makeSourceFile(`
+      function reopenArchive(archive: any): void {
+        if (archive.stage !== ArchiveStage.CLOSED) {
+          throw new InvalidStateError("not closed");
+        }
+        if (archive.sealedAt !== null) {
+          throw new InvalidStateError("sealed");
+        }
+        archive.stage = ArchiveStage.OPEN;
+      }
+    `);
+    const result = normalize(
+      extractStatusAssignments(sf, "src/archive.ts"),
+      extractFactAssignments(sf, "src/archive.ts"),
+      extractGuards(sf, "src/archive.ts"),
+      [],
+    );
+
+    expect(result.transitions).toHaveLength(1);
+    expect(result.transitions[0]?.from).toEqual({
+      state: "CLOSED",
+      facts: { sealedAt: null },
+    });
+  });
+
+  it("does not invent a lossy fact for an unrepresentable non-null precondition", () => {
+    const sf = makeSourceFile(`
+      function publishDraft(draft: any): void {
+        if (draft.stage !== DraftStage.READY) {
+          throw new InvalidStateError("not ready");
+        }
+        if (draft.approvedAt === null) {
+          throw new InvalidStateError("not approved");
+        }
+        draft.stage = DraftStage.PUBLISHED;
+      }
+    `);
+    const result = normalize(
+      extractStatusAssignments(sf, "src/draft.ts"),
+      extractFactAssignments(sf, "src/draft.ts"),
+      extractGuards(sf, "src/draft.ts"),
+      [],
+    );
+
+    expect(result.transitions[0]?.from).toEqual({ state: "READY", facts: {} });
+    expect(result.transitions[0]?.guards).toContainEqual({
+      field: "approvedAt",
+      operator: "eq",
+      value: null,
+    });
   });
 });
 

@@ -113,6 +113,34 @@
   },
   {
     "id": "tr-005",
+    "action": "restoreOrder",
+    "from": {
+      "state": "CANCELLED",
+      "facts": {
+        "refundedAt": null
+      }
+    },
+    "to": {
+      "state": "PAID",
+      "facts": {}
+    },
+    "file": "src/services/order-service.ts",
+    "line": 98,
+    "guards": [
+      {
+        "field": "status",
+        "operator": "neq",
+        "value": "CANCELLED"
+      },
+      {
+        "field": "refundedAt",
+        "operator": "neq",
+        "value": null
+      }
+    ]
+  },
+  {
+    "id": "tr-006",
     "action": "shipOrder",
     "from": {
       "state": "PAID",
