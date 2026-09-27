@@ -1,0 +1,34 @@
+{
+  "name": "@nevergraph/dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "NeverGraph dashboard — read-only presentation layer over .nevergraph artifacts",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit --project tsconfig.json",
+    "test": "vitest run --config vitest.config.ts",
+    "test:watch": "vitest --config vitest.config.ts"
+  },
+  "dependencies": {
+    "@nevergraph/schemas": "workspace:*",
+    "@xyflow/react": "^12.12.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.48.0",
+    "next": "^15.5.26",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwind-merge": "^3.7.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.0"
+  }
+}
