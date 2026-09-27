@@ -6,7 +6,10 @@ coverage
 .env.local
 
 .nevergraph/*.tmp
+.nevergraph/generated-tests/
 .nevergraph/proofs/*.json
+.nevergraph/witnesses/
+packages/runner/.tmp-tests/
 
 .DS_Store
 Thumbs.db
